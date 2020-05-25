@@ -7,7 +7,7 @@ np.random.seed(0)
 
 class MultiArmedBanditEnv(Env):
 
-    def __init__(self, n=3):
+    def __init__(self, n=3, info={}):
         """
         n - number of arms in the bandit
         """
@@ -15,15 +15,18 @@ class MultiArmedBanditEnv(Env):
         self.action_space = spaces.Discrete(self.num_bandits)
         self.observation_space = spaces.Discrete(1) # just the reward of the last action
         self.bandit_success_prob = np.random.uniform(size=self.num_bandits) # Pick some random success probabilities
-        self.bandits_reward = [1 for x in range(self.num_bandits)] # For this formulation of the bandit problem, all rewards are 1
+        self.info = info
 
     
     def step(self, action):
+        reward = 0
+        done = True
         result_prob = np.random.random()
         if result_prob < self.bandit_success_prob[action]:
-            return 1
+            reward = 1
         else:
-            return 0
+            reward = 0
+        return [0], reward, done, self.info
 
     def reset(self):
         # Get some new bandit success probs
