@@ -31,5 +31,5 @@ class MultiArmedBanditEnv(Env):
 
     def render(self, mode='human'):
         print('bandits success prob:')
-        for i in range(len(self.num_bandits)):
+        for i in range(self.num_bandits):
             print("arm {num} reward prob: {prob}".format(num=i, prob=self.bandit_success_prob[i]))
